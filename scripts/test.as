@@ -1,5 +1,5 @@
-void onMessage(uint16 msg) {
-	printf("onMessage");
+void onMessage(uint32 msg) {
+	print("onMessage");
 }
 void onProximity() {
 	print("onProximity");
@@ -7,7 +7,13 @@ void onProximity() {
 void onTimer() {
 	print("onTimer");
 }
+void onQuit() {
+	print("onQuit");
+}
 
-void main() {	
-	print("woo! script!");
+void main() {
+	int32 a = print("woo! script!");
+	print("" + a);
+	sleep(5000);
+	print("after sleep");
 }

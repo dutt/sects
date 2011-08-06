@@ -12,15 +12,15 @@ using namespace std;
 
 asIScriptEngine* engine;
 
-int asprint(string& text) {
+int as_print(string& text) {
 	cout <<"script talking: \"" <<text <<"\"" <<endl;
 	return 5;
 }
-int asprint_generic(asIScriptGeneric* gen) {
-	string* str = (string*)gen->GetArgAddress(0);
-	gen->SetReturnDouble(5.0);
-	return 5;
+
+void as_sleep(uint32 ms) {
+	Timer::sleep(ms);
 }
+
 void asMsgCallback(const asSMessageInfo* msg, void* param) {
 	const char* type = "ERR ";
 	if(msg->type == asMSGTYPE_WARNING)
@@ -30,6 +30,9 @@ void asMsgCallback(const asSMessageInfo* msg, void* param) {
 	printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
 }
 bool setupAS() {
+	if( strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")) {
+		cout <<"AngelScript option AS_MAX_PORTABILITY compiled, this isn't supported in sects" <<endl;
+	}
 	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
 	if(!engine) {
 		cout <<"Failed to create script engine" <<endl;
@@ -37,22 +40,19 @@ bool setupAS() {
 	}
 	engine->SetMessageCallback(asFUNCTION(asMsgCallback), 0, asCALL_CDECL);
 	RegisterStdString(engine);
-	int r = -1;
-	if( !strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")) {
-		r = engine->RegisterGlobalFunction("void print(string& in)", asFUNCTION(asprint), asCALL_CDECL); assert(r >= 0);
-	}
-	else {
-		r = engine->RegisterGlobalFunction("void print(string& in)", asFUNCTION(asprint_generic), asCALL_GENERIC); assert(r >= 0);
-	}
+	int r = engine->RegisterGlobalFunction("int print(string& in)", asFUNCTION(as_print), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterGlobalFunction("void sleep(uint32 ms)", asFUNCTION(as_sleep), asCALL_CDECL); assert(r >= 0);
 	return true;
 }
 
-void asLineCallback(asIScriptContext* context, uint32 timeout) {
-	/*if(timeout != 0 && timeout < Timer::tick())
-		context->Abort();*/
+void asLineCallback(asIScriptContext* context, uint32* timeout) {
+	if(*timeout != 0 && *timeout < Timer::tick()) {
+		cout <<"Script timed out" <<endl;
+		context->Abort();
+	}
 }
 
-asIScriptContext* createASContext(uint32 timeout) {
+asIScriptContext* createASContext(uint32& timeout) {
 	asIScriptContext* context = engine->CreateContext();
 	int32 r = context->SetLineCallback(asFUNCTION(asLineCallback), &timeout, asCALL_CDECL);
 	if(r < 0) {
