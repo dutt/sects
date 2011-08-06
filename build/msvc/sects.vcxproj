@@ -39,9 +39,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\dutt\workspace\libs\angelscript_2.21.0\angelscript\include;C:\Users\dutt\workspace\libs\boost_1_46_1;..\..\inc;..\..\..\trassel\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\dutt\workspace\libs\boost_1_46_1;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,7 +56,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\bin\msvc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\..\bin\msvc\trassel.dbg.lib;..\..\bin\msvc\angelscriptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cp ../../../trassel/bin/trassel.dbg.lib ../../bin/msvc</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -71,13 +78,43 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\README.md" />
+    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring.cpp" />
+    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring_utils.cpp" />
+    <ClCompile Include="..\..\src\bodypart.cpp" />
+    <ClCompile Include="..\..\src\entity.cpp" />
+    <ClCompile Include="..\..\src\item.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\object.cpp" />
+    <ClCompile Include="..\..\src\win32\console.cpp" />
+    <ClCompile Include="..\..\src\win32\inputmgr.cpp" />
+    <ClCompile Include="..\..\src\win32\timer.cpp" />
+    <ClCompile Include="..\..\src\win32\util.cpp" />
+    <ClCompile Include="..\..\src\win32\windowmgr.cpp" />
+    <ClCompile Include="..\..\src\window.cpp" />
+    <ClCompile Include="..\..\src\windowmgr_common.cpp" />
+    <ClCompile Include="..\..\src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\main.cpp" />
+    <ClInclude Include="..\..\inc\bodypart.h" />
+    <ClInclude Include="..\..\inc\common.h" />
+    <ClInclude Include="..\..\inc\console.h" />
+    <ClInclude Include="..\..\inc\console_internal.h" />
+    <ClInclude Include="..\..\inc\creaturebase.h" />
+    <ClInclude Include="..\..\inc\entity.h" />
+    <ClInclude Include="..\..\inc\inputmgr.h" />
+    <ClInclude Include="..\..\inc\item.h" />
+    <ClInclude Include="..\..\inc\object.h" />
+    <ClInclude Include="..\..\inc\scripting.h" />
+    <ClInclude Include="..\..\inc\timer.h" />
+    <ClInclude Include="..\..\inc\typedefs.h" />
+    <ClInclude Include="..\..\inc\util.h" />
+    <ClInclude Include="..\..\inc\window.h" />
+    <ClInclude Include="..\..\inc\windowmgr.h" />
+    <ClInclude Include="..\..\inc\world.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
