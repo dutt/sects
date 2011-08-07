@@ -13,8 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\angelscript">
-      <UniqueIdentifier>{81e5ae10-f1e7-4604-8f81-01aaf17f308e}</UniqueIdentifier>
+    <Filter Include="scripts">
+      <UniqueIdentifier>{45a84ae9-16b5-4fdb-8d44-13a805949414}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,11 +57,8 @@
     <ClCompile Include="..\..\src\object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring_utils.cpp">
-      <Filter>Header Files\angelscript</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring.cpp">
-      <Filter>Header Files\angelscript</Filter>
+    <ClCompile Include="..\..\src\scriptmgr.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,8 +107,16 @@
     <ClInclude Include="..\..\inc\entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\inc\scripting.h">
+    <ClInclude Include="..\..\inc\scriptmgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\scripts\behaviour.as">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\init.as">
+      <Filter>scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

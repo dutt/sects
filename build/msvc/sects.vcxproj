@@ -82,13 +82,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring.cpp" />
-    <ClCompile Include="..\..\..\libs\angelscript_2.21.0\add_on\scriptstdstring\scriptstdstring_utils.cpp" />
     <ClCompile Include="..\..\src\bodypart.cpp" />
     <ClCompile Include="..\..\src\entity.cpp" />
     <ClCompile Include="..\..\src\item.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\object.cpp" />
+    <ClCompile Include="..\..\src\scriptmgr.cpp" />
     <ClCompile Include="..\..\src\win32\console.cpp" />
     <ClCompile Include="..\..\src\win32\inputmgr.cpp" />
     <ClCompile Include="..\..\src\win32\timer.cpp" />
@@ -108,13 +107,17 @@
     <ClInclude Include="..\..\inc\inputmgr.h" />
     <ClInclude Include="..\..\inc\item.h" />
     <ClInclude Include="..\..\inc\object.h" />
-    <ClInclude Include="..\..\inc\scripting.h" />
+    <ClInclude Include="..\..\inc\scriptmgr.h" />
     <ClInclude Include="..\..\inc\timer.h" />
     <ClInclude Include="..\..\inc\typedefs.h" />
     <ClInclude Include="..\..\inc\util.h" />
     <ClInclude Include="..\..\inc\window.h" />
     <ClInclude Include="..\..\inc\windowmgr.h" />
     <ClInclude Include="..\..\inc\world.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\scripts\behaviour.as" />
+    <None Include="..\..\scripts\init.as" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
