@@ -8,5 +8,5 @@ class Tree : Entity {
 }
 
 void createTypes() {
-	registerType("Tree");
+	system.registerType("Tree");
 }

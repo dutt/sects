@@ -10,14 +10,14 @@ public:
 
 	bool setupAS();
 
-	asIScriptModule* getModule(const char* name) { return mEngine->GetModule(0); }
+	asIScriptModule* getModule(const char* name) { return mEngine->GetModule(name); }
 	
 	asIScriptContext* createASContext(uint32* timeout);
-	asIScriptModule* compileFile(const char* path);
+	asIScriptModule* compileFile(const char* path, const char* moduleName);
 private:
 	void registerGlobalFunctions();
 	void registerEntityInterface();
-	void registerEntityType(std::string name);
+	void registerEntityType(std::string& name);
 	asIScriptEngine* mEngine;
 };
 

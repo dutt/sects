@@ -15,9 +15,13 @@ void as_sleep(uint32 ms) {
 	Timer::sleep(ms);
 }
 
-void ScriptManager::registerEntityType(string name) {
-	cout <<"Registering type \"" <<name <<"\"" <<endl;
-}
+class ScriptSystem {
+public:
+	void registerEntityType(string& name) {
+		cout <<"Registering type \"" <<name <<"\"" <<endl;
+	}
+};
+ScriptSystem systemObj;
 
 //
 // Script mEngine callbacks
@@ -31,7 +35,7 @@ void asMsgCallback(const asSMessageInfo* msg, void* param) {
 }
 
 void asLineCallback(asIScriptContext* context, uint32* timeout) {
-	if(*timeout != 0 && *timeout < Timer::tick()) {
+	if(timeout != 0 && *timeout != 0 && *timeout < Timer::tick()) {
 		cout <<"Script timed out" <<endl;
 		context->Abort();
 	}
@@ -40,6 +44,13 @@ void asLineCallback(asIScriptContext* context, uint32* timeout) {
 void ScriptManager::registerGlobalFunctions() {
 	int r = mEngine->RegisterGlobalFunction("void print(string& in)", asFUNCTION(as_print), asCALL_CDECL); assert(r >= 0);
 	r = mEngine->RegisterGlobalFunction("void sleep(uint32)", asFUNCTION(as_sleep), asCALL_CDECL); assert(r >= 0);
+	r = mEngine->RegisterObjectType("SystemClass", 0, asOBJ_REF | asOBJ_NOHANDLE);
+	assert(r >= 0);
+	r = mEngine->RegisterGlobalProperty("SystemClass system", &systemObj);
+	assert(r >= 0);
+	r = mEngine->RegisterObjectMethod("SystemClass", "bool registerType(string& in)", asMETHOD(ScriptSystem, registerEntityType), asCALL_THISCALL); 
+	assert(r >= 0);
+	//r = mEngine->RegisterGlobalFunction("void registerType(string& in)", asFUNCTION(&ScriptManager::registerEntityType), asCALL_CDECL); assert(r >= 0);
 }
 
 void ScriptManager::registerEntityInterface() {
@@ -79,7 +90,7 @@ asIScriptContext* ScriptManager::createASContext(uint32* timeout) {
 	return context;
 }
 
-asIScriptModule* ScriptManager::compileFile(const char* path) {
+asIScriptModule* ScriptManager::compileFile(const char* path, const char* moduleName) {
 	//open
 	FILE* f = fopen(path, "rb");
 	if(f == 0) {
@@ -100,7 +111,7 @@ asIScriptModule* ScriptManager::compileFile(const char* path) {
 		return 0;
 	}
 	//create module
-	asIScriptModule* module = mEngine->GetModule(0, asGM_ALWAYS_CREATE);
+	asIScriptModule* module = mEngine->GetModule(moduleName, asGM_ALWAYS_CREATE);
 	int r = module->AddScriptSection("script", &script[0], len);
 	if(r < 0) {
 		cout <<"Failed to add script module" <<endl;

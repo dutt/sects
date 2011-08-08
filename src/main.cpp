@@ -53,8 +53,10 @@ class ContextRunner : public Task {
 	uint32 mTimeout;
 	uint32* mScriptTimeout;
 	void prepareFuncIDs() {
-		mFuncIDs.onMessage = mScriptMgr.getModule("behaviour")->GetFunctionIdByDecl("void onMessage(uint32 msg)"); assert(mFuncIDs.onMessage > 0);
-		mFuncIDs.onQuit = mScriptMgr.getModule("behaviour")->GetFunctionIdByDecl("void onQuit()"); assert(mFuncIDs.onQuit > 0);
+		mFuncIDs.onMessage = mScriptMgr.getModule("behaviour")->GetFunctionIdByDecl("void onMessage(uint32 msg)");
+		assert(mFuncIDs.onMessage > 0);
+		mFuncIDs.onQuit = mScriptMgr.getModule("behaviour")->GetFunctionIdByDecl("void onQuit()");
+		assert(mFuncIDs.onQuit > 0);
 	}
 public:
 	ContextRunner(ConcreteDirectedChannel* channel, ScriptManager& scriptManager) : Task(channel), mScriptMgr(scriptManager) {
@@ -150,8 +152,8 @@ int main(int argc, char** argv) {
 	ScriptManager scriptmgr;
 	if(!scriptmgr.setupAS())
 		return -1;
-	scriptmgr.compileFile("../../scripts/init.as");
-	scriptmgr.compileFile("../../scripts/behaviour.as");
+	scriptmgr.compileFile("../../scripts/init.as", "init");
+	scriptmgr.compileFile("../../scripts/behaviour.as", "behaviour");
 	runTypeCreation(scriptmgr);
 
 	//run unit creation
